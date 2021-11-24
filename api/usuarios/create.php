@@ -23,11 +23,11 @@
 
   if($usuario->create()){
       echo json_encode(
-          array('data'=> 'El usuario se creo exitosamente.')
+          array('code' => 0, 'data'=> 'El usuario se creo exitosamente.')
       );
     }else{
         echo json_encode(
-            array('error' => 'El usuario no se pudo crear.')
+            array('code'=> 1,'error' => 'El usuario no se pudo crear.')
         );
     }
       
