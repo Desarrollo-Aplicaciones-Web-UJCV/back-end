@@ -26,7 +26,7 @@
       $usuario->get_user_role();
     } finally{
       $session_array = array(
-        'code' => 0, 'message' => 'Usuario logueado', 'idRol' => $usuario->idRol
+        'code' => 0, 'message' => 'Usuario logueado', 'idRol' => $usuario->idRol, 'idUsuario'=> $usuario->idUsuario, 'auth' => $usuario->auth()
       );
         echo json_encode($session_array);;
     }

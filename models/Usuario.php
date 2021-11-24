@@ -1,7 +1,10 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/JWT.php');
+use Firebase\JWT\JWT;
 
 class Usuario{
     private $connection;
+    private $key = 'privatekey';
     private $tabla = 'usuarios';
 
     public $idUsuario;
@@ -64,7 +67,7 @@ class Usuario{
     }
 
     public function get_user_role(){
-        $query = 'SELECT idRol FROM ' . $this->tabla . ' WHERE nombreUsuario = ? LIMIT 1';
+        $query = 'SELECT idUsuario, idRol FROM ' . $this->tabla . ' WHERE nombreUsuario = ? LIMIT 1';
         $stmt = $this->connection->prepare($query);
 
         $stmt->bindParam(1, $this->nombreUsuario);
@@ -73,7 +76,32 @@ class Usuario{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $this->idRol = $row['idRol'];
+        $this->idUsuario = $row['idUsuario'];
     }
+
+    public function auth(){
+        $iat = time();
+        $exp = $iat + 60 * 60;
+        $payload = array(
+            'user' => $this->idUsuario,
+            'iss' => 'http://localhost/back-end',
+            'aud' => 'http://localhost',
+            'iat' => $iat,
+            'exp' => $exp
+        );
+        $jwt = JWT::encode($payload, $this->key, 'HS512');
+        //print_r(JWT::decode($jwt, $this->key, array('HS512')));
+        return array(
+            'token' => $jwt,
+            'expires' => $exp
+        );
+    }
+
+    public function verify_token($token){
+        $obj = JWT::decode($token, $this->key, array('HS512'));
+        echo $obj;
+    }
+
 
 
 
