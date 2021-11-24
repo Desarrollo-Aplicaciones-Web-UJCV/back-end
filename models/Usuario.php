@@ -13,6 +13,7 @@ class Usuario{
     public $nombreUsuario;
     public $clave;
     public $idRol;
+    public $nombreRol;
 
     public function __construct($db){
         $this->connection = $db;
@@ -32,6 +33,7 @@ class Usuario{
         $this->nombreUsuario = htmlspecialchars(strip_tags($this->nombreUsuario));
         $this->clave = htmlspecialchars(strip_tags( password_hash($this->clave, PASSWORD_DEFAULT)));
         $this->idRol = htmlspecialchars(strip_tags($this->idRol));
+    
 
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':correo', $this->correo);
@@ -43,6 +45,72 @@ class Usuario{
             return true;
         }else{
             printf('Error: %s. \n', $stmt->error);
+            return false;
+        }
+    }
+    
+    public function read(){
+        $query = 'SELECT u.nombre, u.correo, u.nombreUsuario, r.nombre as rol FROM ' . $this->tabla .' u INNER JOIN roles r on u.idRol = r.idRol';
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function read_single(){
+        $query = 'SELECT u.nombre, u.correo, u.nombreUsuario,r.idRol, r.nombre as rol FROM ' . $this->tabla .' u INNER JOIN roles r on u.idRol = r.idRol WHERE idUsuario = ?  LIMIT 0,1';
+        
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(1, $this->idUsuario);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->nombre = $row['nombre'];
+        $this->correo = $row['correo'];
+        $this->nombreUsuario = $row['nombreUsuario'];
+        $this->idRol = $row['idRol'];
+      }
+
+      public function update(){
+        $query = 'UPDATE ' . $this->tabla . ' 
+          SET
+            idUsuario = :idUsuario,
+            nombre = :nombre,
+            correo = :correo,
+            nombreUsuario = :nombreUsuario,
+            idRol = :idRol
+
+           WHERE idUsuario = :idUsuario';
+
+           $stmt = $this->connection->prepare($query);
+
+
+           $stmt->bindParam(':idUsuario', $this->idUsuario);
+           $stmt->bindParam(':nombre', $this->nombre);
+           $stmt->bindParam(':correo', $this->correo);
+           $stmt->bindParam(':nombreUsuario', $this->nombreUsuario);
+           $stmt->bindParam(':idRol', $this->idRol);
+
+           if($stmt->execute()){
+               return true;
+           }else{
+               printf("Error: %s. \n", $stmt->error);
+               return false;
+           }
+
+    }
+
+    public function delete(){
+        $query = 'DELETE FROM ' . $this->tabla . ' WHERE idUsuario = :id';
+        $stmt = $this->connection->prepare($query);
+
+        $this->idUsuario = htmlspecialchars(strip_tags($this->idUsuario));
+        $stmt->bindParam(':id', $this->idUsuario);
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            printf("Error: %s. \n", $stmt->error);
             return false;
         }
     }
