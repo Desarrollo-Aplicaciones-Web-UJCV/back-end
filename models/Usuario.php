@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/php-jwt/src/JWT.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/JWT.php');
 use Firebase\JWT\JWT;
 
 class Usuario{
