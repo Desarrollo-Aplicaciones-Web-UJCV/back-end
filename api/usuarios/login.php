@@ -22,13 +22,16 @@
     }
 
   if($usuario->login()){
-      echo json_encode(
-          array('code' => 0,'message'=> 'Usuario logueado')
+    try{
+      $usuario->get_user_role();
+    } finally{
+      $session_array = array(
+        'code' => 0, 'message' => 'Usuario logueado', 'idRol' => $usuario->idRol
       );
+        echo json_encode($session_array);;
+    }
     }else{
         echo json_encode(
             array('code' => 1, 'error' => 'El usuario o contraseña es incorrecto.')
         );
     }
-      
-?>

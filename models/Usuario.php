@@ -63,6 +63,18 @@ class Usuario{
         return $verificaClave;
     }
 
+    public function get_user_role(){
+        $query = 'SELECT idRol FROM ' . $this->tabla . ' WHERE nombreUsuario = ? LIMIT 1';
+        $stmt = $this->connection->prepare($query);
+
+        $stmt->bindParam(1, $this->nombreUsuario);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->idRol = $row['idRol'];
+    }
+
 
 
 }
