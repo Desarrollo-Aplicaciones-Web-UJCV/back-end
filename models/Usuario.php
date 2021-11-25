@@ -41,11 +41,12 @@ class Usuario{
         $stmt->bindParam(':clave', $this->clave);
         $stmt->bindParam(':idRol', $this->idRol);
 
-        if($stmt->execute()){
+        try{
+            $stmt->execute();
             return true;
-        }else{
-            printf('Error: %s. \n', $stmt->error);
-            return false;
+        } catch(PDOException $err){
+           // echo substr($err->getMessage(), 87, 101);
+            return $err;
         }
     }
     

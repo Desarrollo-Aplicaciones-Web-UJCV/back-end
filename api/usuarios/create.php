@@ -21,14 +21,39 @@
   $usuario->clave = $data->clave;
   $usuario->idRol = $data->idRol;
 
-  if($usuario->create()){
+  if($usuario->create() === true){
       echo json_encode(
           array('code' => 0, 'data'=> 'El usuario se creo exitosamente.')
       );
     }else{
+        $err = $usuario->create();
+        $errCode = $err->errorInfo[0];
+        $errMessage = $err->errorInfo[2];
+        $error_array = array();
+
+
+        if($errCode == 23000 && strpos($errMessage, 'unique_email')== true){
+            $error = array(
+                'code'=> $errCode,
+                'error' => 'Este correo ya se encuentra registrado.'
+            );
+            array_push($error_array, $error);
+        }
+        if($errCode == 23000 && strpos($errMessage, 'unique_username') == true){
+            $error = array(
+                'code'=> $errCode,
+                'error' => 'Este nombre de usuario ya se encuentra registrado.'
+            );
+            array_push($error_array, $error);
+        }
+
+
         echo json_encode(
-            array('code'=> 1,'error' => 'El usuario no se pudo crear.')
+            array(
+                'code'=>http_response_code(422),
+                'error' => $error_array
+            )
         );
-    }
+}
       
 ?>
