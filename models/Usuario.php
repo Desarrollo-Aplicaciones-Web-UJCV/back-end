@@ -167,42 +167,43 @@ class Usuario{
     }
 
     public function change_password($newPass){
-        $query2 = 'UPDATE ' . $this->tabla . ' 
-           SET
-           clave = :clave
-           WHERE idUsuario = :idUsuario';
-           $stmt2 = $this->connection->prepare($query2);
-           $stmt2->bindParam(':idUsuario', $this->idUsuario);
-           $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
-            $stmt2->bindParam(':clave',$nuevaContra);           
-            if($stmt2->execute()){
-            return true;
-        }else{
-            printf("Error: %s. \n", $stmt->error);
-            return false;
-        }
-        
-        // $verificaClave = login();
+        $query = 'SELECT clave FROM ' . $this->tabla . ' WHERE idUsuario = ? LIMIT 1';
+        $stmt = $this->connection->prepare($query);        
 
-        // if($verificaClave){
-        //     $query2 = 'UPDATE ' . $this->tabla . ' 
-        //    SET
-        //    clave = :clave
-        //    WHERE idUsuario = :idUsuario';
-        //    $stmt2 = $this->connection->prepare($query2);
-        //    $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
-        //    $stmt2->bindParam(':clave',$nuevaContra); 
-        //    $stmt2->bindParam(':idUsuario', $this->idUsuario); 
-        //     if($stmt2->execute()){
-        //     return true;
-        //     }else{
-        //         printf("Error: %s. \n", $stmt->error);
-        //         return false;
-        //     }
-        // }else{
-        //     printf("La contraseña anterior no coincide.");
-        //     return false;
-        // }
+
+        $stmt->bindParam(1, $this->idUsuario);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $claveIngresada = $this->clave;
+        $hashDb = $row['clave'];
+        
+        $verificaClave = password_verify($claveIngresada, $hashDb);
+        
+        if($verificaClave){
+            
+            $query = 'UPDATE ' . $this->tabla . ' 
+               SET
+               clave = :clave
+               WHERE idUsuario = :idUsuario';
+               $stmt = $this->connection->prepare($query);
+               $stmt->bindParam(':idUsuario', $this->idUsuario);
+               $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
+               $stmt->bindParam(':clave',$nuevaContra);           
+                if($stmt->execute()){
+                return true;
+            }else{
+                return array(
+                    'message'=> 'ocurrió un problema al actualizar la contraseña.'
+                );
+            }
+            
+        }else{
+            return array(
+                'message' => 'Ingresa correctamente tu contraseña anterior.'
+            );
+        }
         
     }
 

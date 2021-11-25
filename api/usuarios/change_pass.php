@@ -13,29 +13,28 @@
 
   $usuario = new Usuario($db);
 
-  $data = json_decode(file_get_contents('php://input'));
+  $data = file_get_contents("php://input");
+
+  if (isset($data)) {
+      $request = json_decode($data); 
+      $usuario->idUsuario = $request->idUsuario;
+      $usuario->clave = $request->clave;
+      $nuevaClave = $request->nuevaClave;
+    }
+
 
   
-  $usuario->idUsuario = $data->idUsuario;
-  $usuario->nombreUsuario = $data->nombreUsuario;
-  $usuario->clave = $data->clave;
-  $nuevaClave = $data->nuevaClave;
+  
   
 
-  if($usuario->change_password($data->nuevaClave)){
-      $data = array(
-          'idUsuario' => $usuario->idUsuario,
-          'nombreUsuario' => $usuario->nombreUsuario,
-          'clave' => $usuario->clave,
-          'nuevaClave' => $data->nuevaClave
-      );
+  if($usuario->change_password($request->nuevaClave) === true){
       echo json_encode(
-          array('code'=> 0, 'message'=> 'Contraseña actualizada', 'data' => $data)
+          array('code'=> 0, 'message'=> 'Contraseña actualizada')
       );
     }else{
+        $error['error'] = array('code'=> 1, 'error'=> $usuario->change_password($request->nuevaClave));
         echo json_encode(
-            array('code'=> 1, 'error' => 'No se pudo actualizar la contraseña')
+            $error['error']
         );
     }
-      
 ?>
