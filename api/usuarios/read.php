@@ -22,6 +22,7 @@
           extract($row);
 
           $user_item = array(
+              'id' => $idUsuario,
               'nombre' => $nombre,
               'correo' => $correo,
               'nombreUsuario' => $nombreUsuario,

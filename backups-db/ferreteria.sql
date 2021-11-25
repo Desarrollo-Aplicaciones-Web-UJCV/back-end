@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-11-2021 a las 19:56:05
+-- Tiempo de generación: 25-11-2021 a las 04:46:03
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -118,7 +118,7 @@ CREATE TABLE `proveedores` (
 --
 
 CREATE TABLE `roles` (
-  `idrol` int(11) NOT NULL,
+  `idRol` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -126,7 +126,7 @@ CREATE TABLE `roles` (
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`idrol`, `nombre`) VALUES
+INSERT INTO `roles` (`idRol`, `nombre`) VALUES
 (1, 'Administrador'),
 (2, 'Vendedor');
 
@@ -137,7 +137,7 @@ INSERT INTO `roles` (`idrol`, `nombre`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `idusuario` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
   `nombreUsuario` varchar(50) NOT NULL,
@@ -149,9 +149,9 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`idusuario`, `nombre`, `correo`, `nombreUsuario`, `clave`, `idRol`) VALUES
-(5, 'Francklin Marroquin', 'francklin.marroquin@outlook.com', 'francklin.marroquin', '$2y$10$nNGenq.H5qd3vj8v5.dFF.0ikPdT.ltM5zgdS/YD/BDYgiAfy7HAO', 1),
-(7, 'Jonnathan Laux', 'jonnathan.laux@outlook.com', 'jonnathan.laux', '$2y$10$m7vO9oPy0.a.YL1MCOfRPuhMQr/33eCQWaXzcH9zWqxhO4aBzA/ZC', 1);
+INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `nombreUsuario`, `clave`, `idRol`) VALUES
+(9, 'Vendedor', 'vendedor@gmail', 'vendedor', '$2y$10$yqnxlSfJ23ObRA5Qr/1Wb.H6.Jo/EVGEzPjdJQ0BZJPT.rTlmps0y', 2),
+(10, 'Admin', 'admin@gmail', 'admin', '$2y$10$vPeguI6iSnbLj0ka6oysb.v6yRmvbPKdCzhMuOUL81pBGWcq4Icca', 1);
 
 -- --------------------------------------------------------
 
@@ -220,13 +220,15 @@ ALTER TABLE `proveedores`
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`idrol`);
+  ADD PRIMARY KEY (`idRol`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`idusuario`),
+  ADD PRIMARY KEY (`idUsuario`),
+  ADD UNIQUE KEY `unique_email` (`correo`) USING BTREE,
+  ADD UNIQUE KEY `unique_username` (`nombreUsuario`),
   ADD KEY `FK_usuarios_roles` (`idRol`);
 
 --
@@ -269,13 +271,13 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
