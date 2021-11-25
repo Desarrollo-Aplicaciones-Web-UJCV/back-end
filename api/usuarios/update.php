@@ -1,8 +1,8 @@
 <?php
-  header('Access-Controll-Allow-Origin: *');
+  header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
-  header('Access-Controll-Allow-Methods: PUT');
-  header('Access-Controll-Allow-Headers: Access-Controll-Allow-Headers, Content-Type, Access-Controll-Allow-Methods, Authorization, X-Requested-With');
+  header('Access-Control-Allow-Methods: PUT');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
   include_once '../../models/Usuario.php';
