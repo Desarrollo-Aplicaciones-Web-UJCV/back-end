@@ -165,11 +165,58 @@ class Usuario{
         );
     }
 
+    public function change_password($newPass){
+        $query2 = 'UPDATE ' . $this->tabla . ' 
+           SET
+           clave = :clave
+           WHERE idUsuario = :idUsuario';
+           $stmt2 = $this->connection->prepare($query2);
+           $stmt2->bindParam(':idUsuario', $this->idUsuario);
+           $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
+            $stmt2->bindParam(':clave',$nuevaContra);           
+            if($stmt2->execute()){
+            return true;
+        }else{
+            printf("Error: %s. \n", $stmt->error);
+            return false;
+        }
+        
+        // $verificaClave = login();
+
+        // if($verificaClave){
+        //     $query2 = 'UPDATE ' . $this->tabla . ' 
+        //    SET
+        //    clave = :clave
+        //    WHERE idUsuario = :idUsuario';
+        //    $stmt2 = $this->connection->prepare($query2);
+        //    $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
+        //    $stmt2->bindParam(':clave',$nuevaContra); 
+        //    $stmt2->bindParam(':idUsuario', $this->idUsuario); 
+        //     if($stmt2->execute()){
+        //     return true;
+        //     }else{
+        //         printf("Error: %s. \n", $stmt->error);
+        //         return false;
+        //     }
+        // }else{
+        //     printf("La contraseña anterior no coincide.");
+        //     return false;
+        // }
+        
+    }
+
     public function verify_token($token){
         $obj = JWT::decode($token, $this->key, array('HS512'));
         echo $obj;
     }
 
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
 
 
 
