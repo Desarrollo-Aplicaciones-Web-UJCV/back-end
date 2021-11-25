@@ -166,11 +166,59 @@ class Usuario{
         );
     }
 
+    public function change_password($newPass){
+        $query = 'SELECT clave FROM ' . $this->tabla . ' WHERE idUsuario = ? LIMIT 1';
+        $stmt = $this->connection->prepare($query);        
+
+
+        $stmt->bindParam(1, $this->idUsuario);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $claveIngresada = $this->clave;
+        $hashDb = $row['clave'];
+        
+        $verificaClave = password_verify($claveIngresada, $hashDb);
+        
+        if($verificaClave){
+            
+            $query = 'UPDATE ' . $this->tabla . ' 
+               SET
+               clave = :clave
+               WHERE idUsuario = :idUsuario';
+               $stmt = $this->connection->prepare($query);
+               $stmt->bindParam(':idUsuario', $this->idUsuario);
+               $nuevaContra = password_hash($newPass, PASSWORD_DEFAULT);
+               $stmt->bindParam(':clave',$nuevaContra);           
+                if($stmt->execute()){
+                return true;
+            }else{
+                return array(
+                    'message'=> 'ocurrió un problema al actualizar la contraseña.'
+                );
+            }
+            
+        }else{
+            return array(
+                'message' => 'Ingresa correctamente tu contraseña anterior.'
+            );
+        }
+        
+    }
+
     public function verify_token($token){
         $obj = JWT::decode($token, $this->key, array('HS512'));
         echo $obj;
     }
 
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
 
 
 
