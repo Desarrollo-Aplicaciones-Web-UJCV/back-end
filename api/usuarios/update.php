@@ -14,13 +14,17 @@
   $usuario = new Usuario($db);
   $rol = new Rol($db);
 
-  $data = json_decode(file_get_contents('php://input'));
+  $data = file_get_contents("php://input");
 
-  $usuario->idUsuario = $data->idUsuario;
-  $usuario->nombre = $data->nombre;
-  $usuario->correo= $data->correo;
-  $usuario->nombreUsuario = $data->nombreUsuario;
-  $usuario->idRol = $data->idRol;
+  if (isset($data)) {
+    $request = json_decode($data);
+    $usuario->idUsuario = $request->idUsuario;
+    $usuario->nombre = $request->nombre;
+    $usuario->correo= $request->correo;
+    $usuario->nombreUsuario = $request->nombreUsuario;
+    $usuario->idRol = $request->idRol; 
+    }
+
 
   if($usuario->update()){
     $rol->read_single($usuario->idRol);
