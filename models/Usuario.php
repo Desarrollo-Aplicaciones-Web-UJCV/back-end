@@ -50,7 +50,7 @@ class Usuario{
     }
     
     public function read(){
-        $query = 'SELECT u.nombre, u.correo, u.nombreUsuario, r.nombre as rol FROM ' . $this->tabla .' u INNER JOIN roles r on u.idRol = r.idRol';
+        $query = 'SELECT u.idUsuario, u.nombre, u.correo, u.nombreUsuario, r.nombre as rol FROM ' . $this->tabla .' u INNER JOIN roles r on u.idRol = r.idRol';
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         return $stmt;
