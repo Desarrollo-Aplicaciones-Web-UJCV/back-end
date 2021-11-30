@@ -2,9 +2,9 @@
 
 class Database{
     private $host = 'localhost';
-    private $db_name = 'ferreteria';
+    private $db_name = 'ferreteria_daw_ujcv';
     private $username = 'root';
-    private $password = '';
+    private $password = 'delay';
     private $connection;
 
     public function connect(){
