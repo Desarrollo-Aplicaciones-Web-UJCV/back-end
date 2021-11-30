@@ -55,6 +55,19 @@ class Producto{
 
     }
 
+    public function read_single(){
+        $query = 'SELECT idproducto, descripcion FROM ' . $this->tabla . ' WHERE idproducto= ? LIMIt 0,1';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(1, $this->idproducto);
+                
+        $stmt->execute();
+
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->descripcion = $row['descripcion'];
+    }
+
     public function delete(){
         $query = 'DELETE FROM ' . $this->tabla . ' WHERE idproducto = :idproducto';
         $stmt = $this->connection->prepare($query);

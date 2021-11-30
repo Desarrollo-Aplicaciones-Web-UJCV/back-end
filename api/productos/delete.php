@@ -12,7 +12,7 @@ $db = $database->connect();
 
 $producto = new Producto($db);
 
-$producto->idproducto = isset($_GET['idproducto']) ? $_GET['idproducto'] : die();
+$producto->idproducto = isset($_GET['id']) ? $_GET['id'] : die();
 
 if($producto->delete()){
     echo json_encode(

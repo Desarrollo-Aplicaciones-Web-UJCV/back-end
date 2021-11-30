@@ -27,7 +27,7 @@
           'descripcion' => $producto->descripcion
       );
       echo json_encode(
-          array('code'=> 0, 'message'=> 'Producto updated.', 'data' => $data)
+          array('code'=> 0, 'message'=> 'Producto actualizado.')
       );
     }else{
         echo json_encode(
