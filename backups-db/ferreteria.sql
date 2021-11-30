@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 25-11-2021 a las 04:46:03
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 7.3.31
+-- Host: localhost
+-- Generation Time: Nov 30, 2021 at 07:50 AM
+-- Server version: 10.6.5-MariaDB
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `ferreteria`
+-- Database: `ferreteria_daw_ujcv`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cliente`
+-- Table structure for table `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -35,20 +35,20 @@ CREATE TABLE `cliente` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `compras`
+-- Table structure for table `compras`
 --
 
 CREATE TABLE `compras` (
   `idcompra` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
-  `idProveedor` int(11) NOT NULL,
+  `idProveedor` varchar(14) NOT NULL,
   `fechaHora` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `configuracion`
+-- Table structure for table `configuracion`
 --
 
 CREATE TABLE `configuracion` (
@@ -63,7 +63,7 @@ CREATE TABLE `configuracion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detallecompra`
+-- Table structure for table `detallecompra`
 --
 
 CREATE TABLE `detallecompra` (
@@ -76,7 +76,7 @@ CREATE TABLE `detallecompra` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detalleventa`
+-- Table structure for table `detalleventa`
 --
 
 CREATE TABLE `detalleventa` (
@@ -89,7 +89,7 @@ CREATE TABLE `detalleventa` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `productos`
+-- Table structure for table `productos`
 --
 
 CREATE TABLE `productos` (
@@ -97,24 +97,38 @@ CREATE TABLE `productos` (
   `descripcion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `productos`
+--
+
+INSERT INTO `productos` (`idproducto`, `descripcion`) VALUES
+(3, 'Producto nuevo');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `proveedores`
+-- Table structure for table `proveedores`
 --
 
 CREATE TABLE `proveedores` (
-  `idproveedor` int(11) NOT NULL,
+  `idproveedor` varchar(14) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telefono` varchar(50) NOT NULL,
   `direccion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `proveedores`
+--
+
+INSERT INTO `proveedores` (`idproveedor`, `nombre`, `email`, `telefono`, `direccion`) VALUES
+(1234567890, 'proveedor1', 'proveedor1@gmail.com', '27720506', 'una direccion random');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -123,7 +137,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`idRol`, `nombre`) VALUES
@@ -133,7 +147,7 @@ INSERT INTO `roles` (`idRol`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -146,17 +160,18 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `nombreUsuario`, `clave`, `idRol`) VALUES
 (9, 'Vendedor', 'vendedor@gmail', 'vendedor', '$2y$10$yqnxlSfJ23ObRA5Qr/1Wb.H6.Jo/EVGEzPjdJQ0BZJPT.rTlmps0y', 2),
-(10, 'Admin', 'admin@gmail', 'admin', '$2y$10$vPeguI6iSnbLj0ka6oysb.v6yRmvbPKdCzhMuOUL81pBGWcq4Icca', 1);
+(10, 'Admin', 'admin@gmail', 'admin', '$2y$10$vPeguI6iSnbLj0ka6oysb.v6yRmvbPKdCzhMuOUL81pBGWcq4Icca', 1),
+(227, 'test', 'test', 'test', 'te', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ventas`
+-- Table structure for table `ventas`
 --
 
 CREATE TABLE `ventas` (
@@ -167,17 +182,17 @@ CREATE TABLE `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `cliente`
+-- Indexes for table `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`idcliente`);
 
 --
--- Indices de la tabla `compras`
+-- Indexes for table `compras`
 --
 ALTER TABLE `compras`
   ADD PRIMARY KEY (`idcompra`),
@@ -185,45 +200,45 @@ ALTER TABLE `compras`
   ADD KEY `FK_compras_usuarios` (`idUsuario`);
 
 --
--- Indices de la tabla `configuracion`
+-- Indexes for table `configuracion`
 --
 ALTER TABLE `configuracion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `detallecompra`
+-- Indexes for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
   ADD PRIMARY KEY (`idCompra`,`idProducto`),
   ADD KEY `FK_detallecompra_productos` (`idProducto`);
 
 --
--- Indices de la tabla `detalleventa`
+-- Indexes for table `detalleventa`
 --
 ALTER TABLE `detalleventa`
   ADD PRIMARY KEY (`idVenta`,`idProducto`),
   ADD KEY `FK_detalleventa_productos` (`idProducto`);
 
 --
--- Indices de la tabla `productos`
+-- Indexes for table `productos`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`idproducto`);
 
 --
--- Indices de la tabla `proveedores`
+-- Indexes for table `proveedores`
 --
 ALTER TABLE `proveedores`
   ADD PRIMARY KEY (`idproveedor`);
 
 --
--- Indices de la tabla `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`idRol`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`idUsuario`),
@@ -232,7 +247,7 @@ ALTER TABLE `usuarios`
   ADD KEY `FK_usuarios_roles` (`idRol`);
 
 --
--- Indices de la tabla `ventas`
+-- Indexes for table `ventas`
 --
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`idventa`),
@@ -240,88 +255,88 @@ ALTER TABLE `ventas`
   ADD KEY `FK_ventas_usuarios` (`idUsuario`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `cliente`
+-- AUTO_INCREMENT for table `cliente`
 --
 ALTER TABLE `cliente`
   MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `configuracion`
+-- AUTO_INCREMENT for table `configuracion`
 --
 ALTER TABLE `configuracion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `detallecompra`
+-- AUTO_INCREMENT for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
   MODIFY `idCompra` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `productos`
+-- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
 
 --
--- AUTO_INCREMENT de la tabla `ventas`
+-- AUTO_INCREMENT for table `ventas`
 --
 ALTER TABLE `ventas`
   MODIFY `idventa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `compras`
+-- Constraints for table `compras`
 --
 ALTER TABLE `compras`
   ADD CONSTRAINT `FK_compras_proveedores` FOREIGN KEY (`idProveedor`) REFERENCES `proveedores` (`idproveedor`),
-  ADD CONSTRAINT `FK_compras_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idusuario`);
+  ADD CONSTRAINT `FK_compras_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`);
 
 --
--- Filtros para la tabla `detallecompra`
+-- Constraints for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
   ADD CONSTRAINT `FK_detallecompra_compras` FOREIGN KEY (`idCompra`) REFERENCES `compras` (`idcompra`),
   ADD CONSTRAINT `FK_detallecompra_productos` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`idproducto`);
 
 --
--- Filtros para la tabla `detalleventa`
+-- Constraints for table `detalleventa`
 --
 ALTER TABLE `detalleventa`
   ADD CONSTRAINT `FK_detalleventa_productos` FOREIGN KEY (`idProducto`) REFERENCES `productos` (`idproducto`),
   ADD CONSTRAINT `FK_detalleventa_ventas` FOREIGN KEY (`idVenta`) REFERENCES `ventas` (`idventa`);
 
 --
--- Filtros para la tabla `usuarios`
+-- Constraints for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`idrol`);
+  ADD CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`idRol`);
 
 --
--- Filtros para la tabla `ventas`
+-- Constraints for table `ventas`
 --
 ALTER TABLE `ventas`
   ADD CONSTRAINT `FK_ventas_cliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idcliente`),
-  ADD CONSTRAINT `FK_ventas_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idusuario`);
+  ADD CONSTRAINT `FK_ventas_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
