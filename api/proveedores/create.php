@@ -14,7 +14,7 @@
 
   $data = json_decode(file_get_contents('php://input'));
   
-
+  $proveedor->idproveedor = $data->idproveedor;
   $proveedor->nombre = $data->nombre;
   $proveedor->email = $data->email;
   $proveedor->telefono = $data->telefono;

@@ -33,7 +33,7 @@
           'direccion' => $proveedor->direccion
       );
       echo json_encode(
-          array('code'=> 0, 'message'=> 'Proveedor updated.', 'data' => $data)
+          array('code'=> 0, 'message'=> 'Proveedor actualizado.', 'data' => $data)
       );
     }else{
         echo json_encode(

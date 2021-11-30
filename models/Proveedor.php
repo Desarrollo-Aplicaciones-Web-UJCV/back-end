@@ -18,6 +18,7 @@ class Proveedor{
     public function create(){
         $query = 'INSERT INTO ' . $this->tabla . '
         SET nombre = :nombre,
+        idproveedor = :idproveedor,
         email = :email,
         telefono = :telefono,
         direccion = :direccion';
@@ -28,7 +29,9 @@ class Proveedor{
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->telefono = htmlspecialchars(strip_tags($this->telefono));
         $this->direccion = htmlspecialchars(strip_tags($this->direccion));
+        $this->idproveedor = htmlspecialchars(strip_tags($this->idproveedor));
 
+        $stmt->bindParam(':idproveedor', $this->idproveedor);
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':telefono', $this->telefono);
