@@ -212,6 +212,19 @@ class Usuario{
         echo $obj;
     }
 
+    public function get_users_count(){
+        $query = 'SELECT COUNT(idUsuario) FROM ' . $this->tabla . ' AS count';
+        
+         $stmt = $this->connection->prepare($query);
+        try{
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $err){
+            return $err.getMessage();        
+        }
+    }
+
+
     function debug_to_console($data) {
         $output = $data;
         if (is_array($output))
