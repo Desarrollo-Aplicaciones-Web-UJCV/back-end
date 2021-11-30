@@ -41,7 +41,7 @@ CREATE TABLE `cliente` (
 CREATE TABLE `compras` (
   `idcompra` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
-  `idProveedor` int(11) NOT NULL,
+  `idProveedor` varchar(14) NOT NULL,
   `fechaHora` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -111,7 +111,7 @@ INSERT INTO `productos` (`idproducto`, `descripcion`) VALUES
 --
 
 CREATE TABLE `proveedores` (
-  `idproveedor` int(11) NOT NULL,
+  `idproveedor` varchar(14) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telefono` varchar(50) NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`idproveedor`, `nombre`, `email`, `telefono`, `direccion`) VALUES
-(0, 'proveedor1', 'proveedor1@gmail.com', '27720506', 'una direccion random');
+(1234567890, 'proveedor1', 'proveedor1@gmail.com', '27720506', 'una direccion random');
 
 -- --------------------------------------------------------
 
