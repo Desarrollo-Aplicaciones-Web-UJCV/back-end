@@ -94,7 +94,8 @@ CREATE TABLE `detalleventa` (
 
 CREATE TABLE `productos` (
   `idproducto` int(11) NOT NULL,
-  `descripcion` varchar(50) NOT NULL
+  `descripcion` varchar(50) NOT NULL,
+  `PrecioVenta` double(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
