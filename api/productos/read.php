@@ -23,7 +23,8 @@
 
           $product_item = array(
               'idproducto' => $idproducto,
-              'descripcion' => $descripcion
+              'descripcion' => $descripcion,
+              'precioVenta' => $precioVenta
           );
           array_push($products_array['data'], $product_item);
 

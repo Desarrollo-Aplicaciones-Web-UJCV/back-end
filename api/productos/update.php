@@ -18,13 +18,15 @@
     $request = json_decode($data);
     $producto->descripcion = $request->descripcion;
     $producto->idproducto = $request->idproducto;
+    $producto->precioVenta = $request->precioVenta;
     }
 
 
   if($producto->update()){
       $data = array(
           'idproducto' => $producto->idproducto,
-          'descripcion' => $producto->descripcion
+          'descripcion' => $producto->descripcion,
+          'precioVenta' => $producto->precioVenta
       );
       echo json_encode(
           array('code'=> 0, 'message'=> 'Producto actualizado.')

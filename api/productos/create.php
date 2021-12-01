@@ -16,14 +16,17 @@
   
 
   $producto->descripcion = $data->descripcion;
+  $producto->precioVenta = $data->precioVenta;
+
 
   if($producto->create() === true){
       echo json_encode(
           array('code' => 0, 'data'=> 'El producto fue agregado exitosamente.')
       );
     }else{
+        $err = $producto->create();
         echo json_encode(
-            array('code' => 1, 'data'=> 'El producto no se pudo agregar.')
+            array('code' => 1, 'data'=> 'El producto no se pudo agregar.' .$err->getMessage())
         );
 }
 ?>
