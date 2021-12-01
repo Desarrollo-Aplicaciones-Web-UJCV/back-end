@@ -22,10 +22,12 @@
     if($usuario->verify_token($token)['data']->idRol == 1){
       $decoded = $usuario->verify_token($token)['data'];
       $data = json_decode(file_get_contents('php://input'));
+      
       $compra->idUsuario = $decoded->user;
       $compra->idProveedor =  $data->idProveedor;
       $compra->fechaHora = new DateTime(null, new DateTimeZone('America/Tegucigalpa'));
-     
+
+      $compra->detalleCompra = $data->detalleCompra;
       if($compra->create() === true){
         echo json_encode(array(
           'code'=> 0,

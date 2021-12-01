@@ -7,7 +7,7 @@ class Compra{
     public $idUsuario;
     public $idProveedor;
     public $fechaHora;
-
+    public $detalleCompra = array();
     public function __construct($db)
     {
        $this->connection = $db; 
@@ -19,7 +19,8 @@ class Compra{
         SET idUsuario = :idUsuario,
         idProveedor = :idProveedor,
         fechaHora = :fechaHora';
-        $this->fechaHora = $this->fechaHora->format('Y-m-d H:m:s');
+        $date =  new DateTime(null, new DateTimeZone('America/Tegucigalpa'));
+        $this->fechaHora = date_format($date, 'Y-m-d H-i-s');
         $stmt = $this->connection->prepare($query); 
         $this->idUsuario = htmlspecialchars(strip_tags($this->idUsuario));
         $this->idProveedor = htmlspecialchars(strip_tags($this->idProveedor));
@@ -30,9 +31,29 @@ class Compra{
 
         try{
             $stmt->execute();
-            return true;
+            $this->idCompra = $this->connection->lastInsertId();
+            $this->create_detail();
+           return true; 
         }catch(PDOException $err){
             return $err;
+        }
+    }
+
+    public function create_detail(){
+        $tabla_detalle = 'detallecompra';
+        $query2 =  'INSERT INTO ' . $tabla_detalle . '
+            SET idCompra = :idCompra,
+                idProducto = :idProducto,
+                cantidad = :cantidad,
+                precioCompra = :precioCompra';
+            $stmt2 = $this->connection->prepare($query2);
+
+        foreach($this->detalleCompra as $producto){
+                        $stmt2->bindParam(':idCompra', $this->idCompra); 
+            $stmt2->bindParam(':idProducto', $producto->idProducto);
+            $stmt2->bindParam(':cantidad', $producto->cantidad);
+            $stmt2->bindParam(':precioCompra', $producto->precioCompra);
+            $stmt2->execute();
         }
     }
 }
