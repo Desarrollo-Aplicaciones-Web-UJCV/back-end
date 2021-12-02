@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 30, 2021 at 07:50 AM
+-- Generation Time: Dec 02, 2021 at 06:06 AM
 -- Server version: 10.6.5-MariaDB
 -- PHP Version: 8.0.13
 
@@ -18,8 +18,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ferreteria_daw_ujcv`
+-- Database: `ferreteria`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `totalCompra` (IN `idCompra` INT)  SELECT SUM(precioCompra) from detallecompra WHERE detallecompra.idCompra = idCompra$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -44,6 +52,13 @@ CREATE TABLE `compras` (
   `idProveedor` varchar(14) NOT NULL,
   `fechaHora` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `compras`
+--
+
+INSERT INTO `compras` (`idcompra`, `idUsuario`, `idProveedor`, `fechaHora`) VALUES
+(4, 10, '1234567890', '2021-12-01 23:33:07');
 
 -- --------------------------------------------------------
 
@@ -72,6 +87,14 @@ CREATE TABLE `detallecompra` (
   `cantidad` int(11) NOT NULL,
   `precioCompra` double(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detallecompra`
+--
+
+INSERT INTO `detallecompra` (`idCompra`, `idProducto`, `cantidad`, `precioCompra`) VALUES
+(4, 4, 3, 2000.00),
+(4, 5, 3, 2000.36);
 
 -- --------------------------------------------------------
 
@@ -102,8 +125,9 @@ CREATE TABLE `productos` (
 -- Dumping data for table `productos`
 --
 
-INSERT INTO `productos` (`idproducto`, `descripcion`) VALUES
-(3, 'Producto nuevo');
+INSERT INTO `productos` (`idproducto`, `descripcion`, `PrecioVenta`) VALUES
+(4, 'Clavos libra', 100.20),
+(5, 'Cemento Bolsa', 480.34);
 
 -- --------------------------------------------------------
 
@@ -124,7 +148,7 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`idproveedor`, `nombre`, `email`, `telefono`, `direccion`) VALUES
-(1234567890, 'proveedor1', 'proveedor1@gmail.com', '27720506', 'una direccion random');
+('1234567890', 'proveedor1', 'proveedor1@gmail.com', '27720506', 'una direccion random');
 
 -- --------------------------------------------------------
 
@@ -166,8 +190,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `nombreUsuario`, `clave`, `idRol`) VALUES
 (9, 'Vendedor', 'vendedor@gmail', 'vendedor', '$2y$10$yqnxlSfJ23ObRA5Qr/1Wb.H6.Jo/EVGEzPjdJQ0BZJPT.rTlmps0y', 2),
-(10, 'Admin', 'admin@gmail', 'admin', '$2y$10$vPeguI6iSnbLj0ka6oysb.v6yRmvbPKdCzhMuOUL81pBGWcq4Icca', 1),
-(227, 'test', 'test', 'test', 'te', 1);
+(10, 'Admin', 'admin@gmail', 'admin', '$2y$10$vPeguI6iSnbLj0ka6oysb.v6yRmvbPKdCzhMuOUL81pBGWcq4Icca', 1);
 
 -- --------------------------------------------------------
 
@@ -266,6 +289,12 @@ ALTER TABLE `cliente`
   MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `compras`
+--
+ALTER TABLE `compras`
+  MODIFY `idcompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `configuracion`
 --
 ALTER TABLE `configuracion`
@@ -275,13 +304,13 @@ ALTER TABLE `configuracion`
 -- AUTO_INCREMENT for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
-  MODIFY `idCompra` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -293,7 +322,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 
 --
 -- AUTO_INCREMENT for table `ventas`
