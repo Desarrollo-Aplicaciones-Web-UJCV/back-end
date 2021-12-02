@@ -71,16 +71,17 @@ class Compra{
 
     public function read_head(){
             $query = 'SELECT compras.idcompra, compras.idUsuario, compras.fechaHora, compras.idProveedor, usuarios.nombre AS NombreUsuario FROM '.$this->tabla.' 
-            INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario';
+            INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario WHERE idcompra=:idcompra';
             $stmt = $this->connection->prepare($query);
+            $stmt->bindParam(':idcompra',$this->idCompra);
             $stmt->execute();
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->idCompra = $row['idcompra'];
             $this->idUsuario = $row['NombreUsuario'];
             $this->fechaHora = $row['fechaHora'];
             $this->idProveedor = $row['idProveedor'];
+
         }
 
         
@@ -94,9 +95,9 @@ class Compra{
     
     public function read_details(){
         $query = 'SELECT detallecompra.idProducto, detallecompra.cantidad, detallecompra.precioCompra, productos.descripcion as NombreProducto FROM detallecompra
-        INNER JOIN productos ON detallecompra.idProducto = productos.idProducto WHERE idCompra = ?';
+        INNER JOIN productos ON detallecompra.idProducto = productos.idProducto WHERE idCompra = :idCompra';
         $stmt = $this->connection->prepare($query);
-        $stmt->bindParam(1,$this->idCompra);
+        $stmt->bindParam(':idCompra',$this->idCompra);
         $stmt->execute();
 
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
