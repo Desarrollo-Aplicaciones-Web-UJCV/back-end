@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2021 at 06:06 AM
+-- Generation Time: Dec 02, 2021 at 06:28 AM
 -- Server version: 10.6.5-MariaDB
 -- PHP Version: 8.0.13
 
@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `totalCompra` (IN `idCompra` INT)  SELECT SUM(precioCompra) from detallecompra WHERE detallecompra.idCompra = idCompra$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `totalCompra` (IN `idCompra` INT)  SELECT SUM(precioCompra*cantidad) from detallecompra WHERE detallecompra.idCompra = idCompra$$
 
 DELIMITER ;
 
