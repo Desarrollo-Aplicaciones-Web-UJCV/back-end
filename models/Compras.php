@@ -8,11 +8,13 @@ class Compra{
     public $idProveedor;
     public $fechaHora;
     public $detalleCompra = array();
+
     public function __construct($db)
     {
        $this->connection = $db; 
     }
 
+    
     public function create()
     {
         $query = 'INSERT INTO ' .  $this->tabla . ' 
@@ -56,6 +58,53 @@ class Compra{
             $stmt2->execute();
         }
     }
+
+    
+    public function get_total($idcompra){
+        $query = 'CALL totalCompra(?)';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(1,$idcompra);
+        $stmt->execute();
+        $rs2 = $stmt->fetchAll();
+        return $rs2[0][0];
+    }
+
+    public function read_head(){
+            $query = 'SELECT compras.idcompra, compras.idUsuario, compras.fechaHora, compras.idProveedor, usuarios.nombre AS NombreUsuario FROM '.$this->tabla.' 
+            INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario';
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $this->idCompra = $row['idcompra'];
+            $this->idUsuario = $row['NombreUsuario'];
+            $this->fechaHora = $row['fechaHora'];
+            $this->idProveedor = $row['idProveedor'];
+        }
+
+        
+    public function read_all(){
+        $query = 'SELECT compras.idcompra, compras.idUsuario, compras.fechaHora, compras.idProveedor, usuarios.nombre AS NombreUsuario, proveedores.Nombre AS NombreProveedor FROM '.$this->tabla.' 
+        INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario INNER JOIN proveedores ON compras.idProveedor = proveedores.idproveedor';
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+    
+    public function read_details(){
+        $query = 'SELECT detallecompra.idProducto, detallecompra.cantidad, detallecompra.precioCompra, productos.descripcion as NombreProducto FROM detallecompra
+        INNER JOIN productos ON detallecompra.idProducto = productos.idProducto WHERE idCompra = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(1,$this->idCompra);
+        $stmt->execute();
+
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->detalleCompra = $row;
+    }
 }
+
+
 ?>
 
