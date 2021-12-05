@@ -36,7 +36,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `cliente` (
-  `idcliente` int(11) NOT NULL,
+  `idcliente` varchar(14) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -200,7 +200,7 @@ INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `nombreUsuario`, `clave
 
 CREATE TABLE `ventas` (
   `idventa` int(11) NOT NULL,
-  `idCliente` int(11) NOT NULL,
+  `idCliente` varchar(14) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `fechaHora` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -282,13 +282,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT for dumped tables
 --
 
---
--- AUTO_INCREMENT for table `cliente`
---
-ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT;
 
---
 -- AUTO_INCREMENT for table `compras`
 --
 ALTER TABLE `compras`
