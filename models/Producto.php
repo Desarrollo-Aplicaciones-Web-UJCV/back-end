@@ -90,10 +90,14 @@ class Producto{
         }
     }
 
-
-
-    
-
-
+    public function get_precio($idProducto){
+        $query = 'SELECT precioVenta from '. $this->tabla . ' WHERE idproducto = :idProducto';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':idProducto', $idProducto, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $precio = $row['precioVenta'];
+        return $precio;
+    }
 }
 ?>
