@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2021 at 06:28 AM
+-- Generation Time: Dec 06, 2021 at 06:37 PM
 -- Server version: 10.6.5-MariaDB
 -- PHP Version: 8.0.13
 
@@ -27,6 +27,8 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `totalCompra` (IN `idCompra` INT)  SELECT SUM(precioCompra*cantidad) from detallecompra WHERE detallecompra.idCompra = idCompra$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `totalVenta` (IN `idventa` INT)  SELECT SUM(precioVenta*cantidad) FROM detalleventa WHERE detalleventa.idVenta = idventa$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -39,6 +41,13 @@ CREATE TABLE `cliente` (
   `idcliente` varchar(14) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cliente`
+--
+
+INSERT INTO `cliente` (`idcliente`, `nombre`) VALUES
+('0107199602064', 'Eduardo Marroquin');
 
 -- --------------------------------------------------------
 
@@ -108,6 +117,14 @@ CREATE TABLE `detalleventa` (
   `cantidad` int(11) NOT NULL,
   `precioVenta` double(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detalleventa`
+--
+
+INSERT INTO `detalleventa` (`idVenta`, `idProducto`, `cantidad`, `precioVenta`) VALUES
+(26, 4, 20, 100.20),
+(26, 5, 12, 480.34);
 
 -- --------------------------------------------------------
 
@@ -206,6 +223,13 @@ CREATE TABLE `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `ventas`
+--
+
+INSERT INTO `ventas` (`idventa`, `idCliente`, `idUsuario`, `fechaHora`) VALUES
+(26, '0107199602064', 10, '2021-12-06 00:43:35');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -282,7 +306,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT for dumped tables
 --
 
-
+--
 -- AUTO_INCREMENT for table `compras`
 --
 ALTER TABLE `compras`
@@ -322,7 +346,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `idventa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idventa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
