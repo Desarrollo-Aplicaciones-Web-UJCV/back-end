@@ -77,13 +77,14 @@ INSERT INTO `compras` (`idcompra`, `idUsuario`, `idProveedor`, `fechaHora`) VALU
 
 CREATE TABLE `configuracion` (
   `id` int(11) NOT NULL,
+  `rtn` varchar(14) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `razonSocial` varchar(50) NOT NULL,
   `telefono` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL
+  `direccion` varchar(50) NOT NULL,
+  `IGV` double(2,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 -- --------------------------------------------------------
 
 --
@@ -252,7 +253,7 @@ ALTER TABLE `compras`
 --
 ALTER TABLE `configuracion`
   ADD PRIMARY KEY (`id`);
-
+COMMIT;
 --
 -- Indexes for table `detallecompra`
 --
