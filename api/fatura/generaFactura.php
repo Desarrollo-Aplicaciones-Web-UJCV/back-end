@@ -61,7 +61,7 @@ $cliente->read_single();
 		$pdf->SetFont('Arial', '', 7);
 		$pdf->Cell(40, 5, utf8_decode($cliente->nombre), 0, 0, 'L');
 		$pdf->Cell(20, 5, utf8_decode($cliente->idcliente), 0, 0, 'L');
-		$pdf->Cell(25, 5, utf8_decode(""), 0, 1, 'L');
+		$pdf->Cell(25, 10, "", 0, 1, 'L');
 		// $pdf->Cell(25, 5, utf8_decode($result_cliente['direccion']), 0, 1, 'L');
 		$pdf->SetFont('Arial', 'B', 7);
 		$pdf->Cell(75, 5, "Detalle de Productos", 0, 1, 'L');
