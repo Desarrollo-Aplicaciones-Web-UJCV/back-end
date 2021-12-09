@@ -4,7 +4,7 @@ class Venta{
     private $connection;
     private $tabla = 'ventas';
 
-    public $idCompra;
+    public $idVenta;
     public $idUsuario;
     public $idCliente;
     public $fechaHora;
@@ -45,7 +45,7 @@ class Venta{
         $productoObj = new Producto($this->connection);
         $tabla_detalle = 'detalleventa';
         $query2 =  'INSERT INTO ' . $tabla_detalle . '
-            SET idVenta = :idVenta,
+            SET idventa = :idVenta,
                 idProducto = :idProducto,
                 cantidad = :cantidad,
                 precioVenta = :precioVenta';
