@@ -107,6 +107,17 @@ class Venta{
 
         $this->detalleVenta = $row;
     }
+
+    public function get_count_ventas(){
+        $query = 'SELECT COUNT(idventa) AS count FROM ' . $this->tabla . ' ';
+        
+         $stmt = $this->connection->prepare($query);
+         $stmt->execute();
+
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+         return $row['count'];
+    }
 }
 
 

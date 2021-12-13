@@ -19,10 +19,13 @@
 
   $count_usuarios = $usuario->get_count_usuarios(); 
   $count_clientes = $cliente->get_count_clientes();
+  $count_ventas = $venta->get_count_ventas();
+  $count_productos = $producto->get_count_productos();
 
   echo json_encode(array(
     'usuarios' => $count_usuarios,
     'clientes' => $count_clientes,
-
+    'ventas' => $count_ventas,
+    'productos' => $count_productos
   ))
 ?>
