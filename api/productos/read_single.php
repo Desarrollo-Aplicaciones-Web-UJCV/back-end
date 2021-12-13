@@ -18,7 +18,8 @@ header('Access-Control-Allow-Methods: GET');
 
   $producto_array = array(
     'id' => $producto->idproducto,
-    'descripcion' => $producto->descripcion
+    'descripcion' => $producto->descripcion,
+    'precioVenta' => $producto->precioVenta
   );
 
   print_r(json_encode($producto_array));

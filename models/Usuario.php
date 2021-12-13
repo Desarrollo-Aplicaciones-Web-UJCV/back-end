@@ -1,6 +1,14 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/SignatureInvalidException.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/ExpiredException.php');
+
+require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/Key.php');
+
 require_once($_SERVER['DOCUMENT_ROOT'].'/back-end/libs/jwt-php/src/JWT.php');
+
+
 use Firebase\JWT\JWT;
+
 
 class Usuario{
     private $connection;
@@ -153,6 +161,7 @@ class Usuario{
         $exp = $iat + 60 * 60;
         $payload = array(
             'user' => $this->idUsuario,
+            'idRol'=> $this->idRol,
             'iss' => 'http://localhost/back-end',
             'aud' => 'http://localhost',
             'iat' => $iat,
@@ -160,10 +169,7 @@ class Usuario{
         );
         $jwt = JWT::encode($payload, $this->key, 'HS512');
         //print_r(JWT::decode($jwt, $this->key, array('HS512')));
-        return array(
-            'token' => $jwt,
-            'expires' => $exp
-        );
+        return $jwt;
     }
 
     public function change_password($newPass){
@@ -208,8 +214,15 @@ class Usuario{
     }
 
     public function verify_token($token){
-        $obj = JWT::decode($token, $this->key, array('HS512'));
-        echo $obj;
+        try{
+            $decoded_token = JWT::decode($token, $this->key, array('HS512'));
+            return array(
+                'code '=>0,
+                'data' => $decoded_token
+            );
+        }catch(Exception $err){
+            return $err->getMessage();
+        }
     }
 
     public function get_users_count(){
