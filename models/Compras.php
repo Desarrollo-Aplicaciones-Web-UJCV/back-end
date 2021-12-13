@@ -85,9 +85,9 @@ class Compra{
         }
 
         
-    public function read_all(){
+    public function read_all($initDate, $endDate){
         $query = 'SELECT compras.idcompra, compras.idUsuario, compras.fechaHora, compras.idProveedor, usuarios.nombre AS NombreUsuario, proveedores.Nombre AS NombreProveedor FROM '.$this->tabla.' 
-        INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario INNER JOIN proveedores ON compras.idProveedor = proveedores.idproveedor';
+        INNER JOIN usuarios ON compras.idUsuario = usuarios.idUsuario INNER JOIN proveedores ON compras.idProveedor = proveedores.idproveedor WHERE compras.fechaHora BETWEEN "' .$initDate. '" and "'.$endDate.' 23:59:59.999"';
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         return $stmt;

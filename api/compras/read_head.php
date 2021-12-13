@@ -7,11 +7,14 @@
   include_once '../../config/Database.php';
   include_once '../../models/Compras.php';
 
+  $initDate = isset($_GET['initDate']) ? $_GET['initDate'] : die();
+  $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : die();
+
   $database = new Database();
   $db = $database->connect();
-
+  if($initDate || $endDate){
   $compras = new Compra($db);
-  $result = $compras->read_all();
+  $result = $compras->read_all($initDate, $endDate);
   $num = $result->rowCount();
 
   if($num > 0){
@@ -36,4 +39,10 @@
   }else{
       echo json_encode(array('error' => 'Aun no existe ninguna compra registrada'));
   }
+}else{
+    echo json_encode(array(
+        'code'=> 1,
+        'error'=> 'Especifique una fecha'
+    ));
+}
 ?>
