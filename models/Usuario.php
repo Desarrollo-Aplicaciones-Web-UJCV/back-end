@@ -225,16 +225,15 @@ class Usuario{
         }
     }
 
-    public function get_users_count(){
-        $query = 'SELECT COUNT(idUsuario) FROM ' . $this->tabla . ' AS count';
+    public function get_count_usuarios(){
+        $query = 'SELECT COUNT(idUsuario) AS count FROM ' . $this->tabla . ' ';
         
          $stmt = $this->connection->prepare($query);
-        try{
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $err){
-            return $err.getMessage();        
-        }
+         $stmt->execute();
+
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+         return $row['count'];
     }
 
 

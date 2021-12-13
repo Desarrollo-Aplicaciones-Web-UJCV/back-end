@@ -2,7 +2,7 @@
 
 class Database{
     private $host = 'localhost';
-    private $db_name = 'ferreteria_daw_ujcv';
+    private $db_name = 'ferreteria';
     private $username = 'root';
     private $password = 'delay';
     private $connection;
