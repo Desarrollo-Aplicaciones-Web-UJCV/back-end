@@ -18,9 +18,11 @@
   $producto = new Producto($db);
 
   $count_usuarios = $usuario->get_count_usuarios(); 
+  $count_clientes = $cliente->get_count_clientes();
 
   echo json_encode(array(
     'usuarios' => $count_usuarios,
-    
+    'clientes' => $count_clientes,
+
   ))
 ?>

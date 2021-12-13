@@ -83,5 +83,16 @@ class Cliente{
             return false;
         }
     }
+
+    public function get_count_clientes(){
+        $query = 'SELECT COUNT(idcliente) AS count FROM ' . $this->tabla . ' ';
+        
+         $stmt = $this->connection->prepare($query);
+         $stmt->execute();
+
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+         return $row['count'];
+    }
 }
 ?>
