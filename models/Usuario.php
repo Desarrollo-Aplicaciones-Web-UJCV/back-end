@@ -225,6 +225,28 @@ class Usuario{
         }
     }
 
+    public function get_count_usuarios(){
+        $query = 'SELECT COUNT(idUsuario) AS count FROM ' . $this->tabla . ' ';
+        
+         $stmt = $this->connection->prepare($query);
+         $stmt->execute();
+
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+         return $row['count'];
+    }
+
+
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
+
+
+
 }
 
 ?>

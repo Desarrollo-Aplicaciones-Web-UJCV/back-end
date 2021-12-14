@@ -31,6 +31,7 @@
       $venta->detalleVenta = $data->detalleVenta;
       if($venta->create() === true){
         echo json_encode(array(
+          'idventa' => $venta->idVenta,
           'code'=> 0,
           'message' => 'venta registrada correctamente'
         ));
